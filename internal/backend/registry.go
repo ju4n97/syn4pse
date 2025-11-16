@@ -43,20 +43,6 @@ func (r *Registry) Get(provider string) (Backend, bool) {
 	return b, ok
 }
 
-// GetStreaming retrieves a backend that supports streaming.
-func (r *Registry) GetStreaming(provider string) (StreamingBackend, bool) {
-	r.mu.RLock()
-	defer r.mu.RUnlock()
-
-	b, ok := r.backends[provider]
-	if !ok {
-		return nil, false
-	}
-
-	sb, ok := b.(StreamingBackend)
-	return sb, ok
-}
-
 // Close closes all registered backends.
 func (r *Registry) Close() error {
 	r.mu.Lock()

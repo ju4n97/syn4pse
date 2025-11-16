@@ -33,8 +33,8 @@ import (
 	"github.com/ju4n97/syn4pse/internal/env"
 	"github.com/ju4n97/syn4pse/internal/logger"
 	"github.com/ju4n97/syn4pse/internal/model"
-	inferencev1 "github.com/ju4n97/syn4pse/internal/pb/inference/v1"
 	"github.com/ju4n97/syn4pse/internal/service"
+	inferencev1 "github.com/ju4n97/syn4pse/sdk-go/pb/inference/v1"
 )
 
 func main() {
@@ -45,6 +45,9 @@ func main() {
 		flagGRPCPort   = flag.Int("grpc-port", config.DefaultGRPCPort(), "gRPC port to listen on")
 		flagConfigPath = flag.String("config", path.Join(config.DefaultConfigPath(), "config.yaml"), "Path to config file")
 		flagSchemaPath = flag.String("schema", path.Join(config.DefaultConfigPath(), "syn4pse.v1.schema.json"), "Path to schema file")
+		flagLlamaBin   = flag.String("llama-bin", "./bin/llama-server-cuda", "Path to llama")
+		flagWhisperBin = flag.String("whisper-bin", "./bin/whisper-server-cuda", "Path to whisper")
+		flagPiperBin   = flag.String("piper-bin", "./bin/piper-cpu/piper", "Path to piper")
 	)
 	flag.Parse()
 
@@ -93,7 +96,7 @@ func main() {
 	serverManager := backend.NewServerManager()
 	defer serverManager.StopAll()
 
-	backendLlama, err := llama.NewBackend("./bin/llama-server-cuda", serverManager)
+	backendLlama, err := llama.NewBackend(*flagLlamaBin, serverManager)
 	if err != nil {
 		slog.Error("Failed to create Llama backend", "error", err)
 	}
@@ -101,7 +104,7 @@ func main() {
 		slog.Error("Failed to register Llama backend", "error", err)
 	}
 
-	backendWhisper, err := whisper.NewBackend("./bin/whisper-server-cuda", serverManager)
+	backendWhisper, err := whisper.NewBackend(*flagWhisperBin, serverManager)
 	if err != nil {
 		slog.Error("Failed to create Whisper backend", "error", err)
 	}
@@ -109,7 +112,7 @@ func main() {
 		slog.Error("Failed to register Whisper backend", "error", err)
 	}
 
-	backendPiper, err := piper.NewBackend("./bin/piper-cpu/piper")
+	backendPiper, err := piper.NewBackend(*flagPiperBin)
 	if err != nil {
 		slog.Error("Failed to create Piper backend", "error", err)
 	}

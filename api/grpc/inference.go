@@ -15,7 +15,7 @@ import (
 
 	"github.com/ju4n97/syn4pse/internal/backend"
 	"github.com/ju4n97/syn4pse/internal/model"
-	inferencev1 "github.com/ju4n97/syn4pse/internal/pb/inference/v1"
+	inferencev1 "github.com/ju4n97/syn4pse/sdk-go/pb/inference/v1"
 )
 
 // InferenceServer implements inferencev1.InferenceServiceServer.

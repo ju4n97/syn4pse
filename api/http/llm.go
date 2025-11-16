@@ -49,7 +49,9 @@ type (
 
 	// StreamEvent is the huma event for the GenerateStream operation.
 	StreamEvent struct {
-		Text string `json:"text"`
+		Done  bool   `json:"done,omitempty"`
+		Text  string `json:"text,omitempty"`
+		Error string `json:"error,omitempty"`
 	}
 )
 
@@ -131,8 +133,7 @@ func (h *LLMHandler) handleGenerateStream(ctx context.Context, input *GenerateSt
 		},
 	)
 	if err != nil {
-		// send an error event (typed as "error")
-		_ = send.Data(struct{ Error string }{Error: err.Error()})
+		_ = send.Data(StreamEvent{Error: err.Error()})
 		return
 	}
 
@@ -141,17 +142,17 @@ func (h *LLMHandler) handleGenerateStream(ctx context.Context, input *GenerateSt
 		case <-ctx.Done():
 			return
 		case chunk, ok := <-stream:
-			if !ok {
-				// Send an end event to indicate completion (typed as "end")
-				_ = send.Data(struct{ Done string }{Done: "[DONE]"})
+			if !ok || chunk.Done {
+				_ = send.Data(StreamEvent{Done: true})
 				return
 			}
 
-			// Send the chunk as the "message" event defined in the registration map.
-			if err := send.Data(StreamEvent{Text: string(chunk.Data)}); err != nil {
-				// If sending fails, abort.
+			if chunk.Error != nil {
+				_ = send.Data(StreamEvent{Error: chunk.Error.Error()})
 				return
 			}
+
+			_ = send.Data(StreamEvent{Text: string(chunk.Data)})
 		}
 	}
 }

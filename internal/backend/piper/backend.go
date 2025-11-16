@@ -26,7 +26,7 @@ type Backend struct {
 }
 
 // NewBackend creates a new Piper backend.
-func NewBackend(binPath string) (*Backend, error) {
+func NewBackend(binPath string) (backend.Backend, error) {
 	executor, err := backend.NewExecutor(binPath, 30*time.Second)
 	if err != nil {
 		return nil, err
