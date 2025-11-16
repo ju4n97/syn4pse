@@ -15,148 +15,13 @@
 [![go.dev reference](https://img.shields.io/badge/go.dev-reference-007d9c?style=flat-square)](https://pkg.go.dev/github.com/ju4n97/syn4pse/sdk-go)
 
 > [!IMPORTANT]
-> Under development. For now, it only covers the essentials I currently rely on.
+> In active development. API design driven by production voice assistant use cases I currently have, but built for general-purpose AI applications.
 
 # SYN4PSE
 
-SYN4PSE provides a local runtime for running AI models through a unified HTTP and gRPC API.
+SYN4PSE is a local AI runtime that lets you run LLMs, speech-to-text, text-to-speech, vision models, and embeddings through a single HTTP/gRPC API. Useful for building voice assistants, chatbots, or any AI-powered application without cloud dependencies.
 
-## Architecture (as of October 2025)
-
-```mermaid
-flowchart TD
-    subgraph CLIENTS[External interfaces / Clients]
-        A1[CLI / SDK / API]
-        A2[External applications]
-        A3[Third-Party agents or services]
-    end
-
-    subgraph SYN4PSE[SYN4PSE]
-        direction TB
-
-        subgraph CONTROL[Control layer]
-            B1[Model registry / State]
-            B2[gRPC and HTTP Server]
-        end
-
-        subgraph BACKENDS[Inference backends]
-            C1[LLM: Qwen, Mistral, etc.]
-            C2[NLU: Rasa, spaCy etc.]
-            C3[STT: Whisper, Vosk, etc.]
-            C4[TTS: Kokoro, Piper, etc.]
-            C5[Embeddings]
-            C6[Vision]
-        end
-
-        subgraph STORAGE[Storage and configuration]
-            E1[Model cache]
-            E2[Metadata / Config]
-        end
-    end
-
-    A1 -->|Inference / Management| B2
-    A2 -->|Streaming / Batch| B2
-    A3 -->|Local control| B2
-    B2 --> B1
-    B2 --> BACKENDS
-    BACKENDS --> B2
-    B1 --> STORAGE
-```
-
-## Supported backends
-
-### LLM
-
-- **[llama.cpp](https://github.com/ggml-org/llama.cpp)**
-  - Source: [`backend/llama`](backend/llama)
-  - Acceleration: CPU, CUDA 11/12
-  - License: MIT
-  - Status: 🟢 Supported
-
----
-
-### STT
-
-- **[whisper.cpp](https://github.com/ggerganov/whisper.cpp)**
-
-  - Source: [`backend/whisper`](backend/whisper)
-  - Acceleration: CPU, CUDA 12
-  - License: MIT
-  - Status: 🟢 Supported
-
-- **[Vosk](https://github.com/alphacep/vosk-api)**
-  - License: Apache 2.0
-  - Status: 🔴 Planned
-
----
-
-### NLU
-
-- **[Rasa](https://github.com/RasaHQ/rasa)**
-  - License: Apache 2.0
-  - Status: 🔴 Planned
-
----
-
-### VAD
-
-- **[Silero VAD](https://github.com/snakers4/silero-vad)**
-  - License: MIT
-  - Status: 🔴 Planned
-
----
-
-### TTS
-
-- **[Piper](https://github.com/rhasspy/piper)**
-
-  - Source: [`backend/piper`](backend/piper)
-  - Acceleration: CPU
-  - License: MIT
-  - Status: 🟡 Experimental
-
-- **[Coqui TTS](https://github.com/coqui-ai/TTS)**
-  - License: MPL 2.0
-  - Status: 🔴 Planned
-
----
-
-### Vision
-
-- **[ONNX Runtime + OpenCV](https://github.com/microsoft/onnxruntime)**
-
-  - License: MIT
-  - Status: 🔴 Planned
-
-- **[Ultralytics YOLO](https://github.com/ultralytics/ultralytics)**
-  - License: AGPL-3.0
-  - Status: 🔴 Planned
-
----
-
-### Embeddings
-
-- **[sentence-transformers](https://github.com/UKPLab/sentence-transformers)**
-
-  - License: Apache 2.0
-  - Status: 🔴 Planned
-
-- **[nomic-embed-text](https://github.com/nomic-ai/nomic)**
-  - License: Apache 2.0
-  - Status: 🔴 Planned
-
----
-
-**Status legend:**
-
-- 🟢 Supported: tested, stable, and recommended for production.
-- 🟡 Experimental: functional but subject to changes, bugs, or limitations.
-- 🟠 Development: active integration with features still under construction.
-- 🔴 Planned: intended for future implementation (PRs welcome).
-
-## Installation
-
-Docker images available at: <https://ghcr.io/ju4n97/syn4pse>
+## Quick start
 
 ### CPU
 
@@ -172,9 +37,9 @@ Requires [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-nat
 docker run -p 8080:8080 -p 50051:50051 --gpus all ghcr.io/ju4n97/syn4pse:cuda
 ```
 
-## Configuración
+## Configuration
 
-SYN4PSE uses a `syn4pse.yaml` file to define which models to download and which services to expose.
+SYN4PSE uses a `syn4pse.yaml` file to define which models to download and which services to expose. Models are downloaded automatically from the specified source on the first run.
 
 ```yaml
 # syn4pse.yaml
@@ -228,16 +93,90 @@ services:
 
 ## Examples
 
-Project examples can be found in the [examples](examples) directory.
+Working demos can be found in the [examples](examples) directory.
 
-### Go examples
+### Go SDK examples
 
-- [Basic completion](examples/go-basic-completion)
-- [Streaming response](examples/go-streaming-response)
-- [Multi-turn conversation](examples/go-multi-turn-conversation)
-- [Speech-to-Text](examples/go-speech-to-text)
-- [Text-to-Speech](examples/go-text-to-speech)
-- [Voice assistant pipeline](examples/go-voice-assistant-pipeline)
+- [Basic completion](examples/go-basic-completion) -> Simple LLM inference
+- [Streaming response](examples/go-streaming-response) -> Real-time token streaming
+- [Multi-turn conversation](examples/go-multi-turn-conversation) - Stateful chat
+- [Speech-to-Text](examples/go-speech-to-text) -> Audio transcription
+- [Text-to-Speech](examples/go-text-to-speech) -> Audio synthesis
+- [Voice assistant pipeline](examples/go-voice-assistant-pipeline) -> Complete STT -> LLM -> TTS flow
+
+## Supported backends
+
+### 🟡 Experimental
+
+| Type    | Backend                                                 | Source                               | Acceleration    | License | Notes                                     |
+| ------- | ------------------------------------------------------- | ------------------------------------ | --------------- | ------- | ----------------------------------------- |
+| **LLM** | [llama.cpp](https://github.com/ggml-org/llama.cpp)      | [`backend/llama`](backend/llama)     | CPU, CUDA 11/12 | MIT     | Qwen, Mistral, Llama, Phi, DeepSeek, etc. |
+| **STT** | [whisper.cpp](https://github.com/ggerganov/whisper.cpp) | [`backend/whisper`](backend/whisper) | CPU, CUDA 12    | MIT     | All Whisper variants (tiny to large-v3)   |
+| **TTS** | [Piper](https://github.com/rhasspy/piper)               | [`backend/piper`](backend/piper)     | CPU             | MIT     | 200+ voices across 50+ languages          |
+
+## Roadmap
+
+Planned backends for future releases:
+
+| Type           | Backend                                                                  | License    | Description                                 | Status     |
+| -------------- | ------------------------------------------------------------------------ | ---------- | ------------------------------------------- | ---------- |
+| **STT**        | [Vosk](https://github.com/alphacep/vosk-api)                             | Apache 2.0 | Offline speech recognition                  | 🔴 Planned |
+| **NLU**        | [Rasa](https://github.com/RasaHQ/rasa)                                   | Apache 2.0 | Intent classification and entity extraction | 🔴 Planned |
+| **VAD**        | [Silero VAD](https://github.com/snakers4/silero-vad)                     | MIT        | Voice activity detection                    | 🔴 Planned |
+| **TTS**        | [Coqui TTS](https://github.com/coqui-ai/TTS)                             | MPL 2.0    | Neural text-to-speech                       | 🔴 Planned |
+| **Vision**     | [ONNX Runtime + OpenCV](https://github.com/microsoft/onnxruntime)        | MIT        | Image processing                            | 🔴 Planned |
+| **Vision**     | [Ultralytics YOLO](https://github.com/ultralytics/ultralytics)           | AGPL-3.0   | Object detection                            | 🔴 Planned |
+| **Embeddings** | [sentence-transformers](https://github.com/UKPLab/sentence-transformers) | Apache 2.0 | Text embeddings                             | 🔴 Planned |
+| **Embeddings** | [nomic-embed-text](https://github.com/nomic-ai/nomic)                    | Apache 2.0 | Dense embeddings                            | 🔴 Planned |
+
+**Status legend:**
+
+- 🟢 Supported: tested, stable, and recommended for production.
+- 🟡 Experimental: functional but subject to changes, bugs, or limitations.
+- 🟠 Development: active integration with features still under construction.
+- 🔴 Planned: intended for future implementation (PRs welcome).
+
+## Architecture (as of October 2025)
+
+```mermaid
+flowchart TD
+    subgraph CLIENTS[External interfaces / Clients]
+        A1[CLI / SDK / API]
+        A2[External applications]
+        A3[Third-Party agents or services]
+    end
+
+    subgraph SYN4PSE[SYN4PSE]
+        direction TB
+
+        subgraph CONTROL[Control layer]
+            B1[Model registry / State]
+            B2[gRPC and HTTP Server]
+        end
+
+        subgraph BACKENDS[Inference backends]
+            C1[LLM: Qwen, Mistral, etc.]
+            C2[NLU: Rasa, spaCy etc.]
+            C3[STT: Whisper, Vosk, etc.]
+            C4[TTS: Kokoro, Piper, etc.]
+            C5[Embeddings]
+            C6[Vision]
+        end
+
+        subgraph STORAGE[Storage and configuration]
+            E1[Model cache]
+            E2[Metadata / Config]
+        end
+    end
+
+    A1 -->|Inference / Management| B2
+    A2 -->|Streaming / Batch| B2
+    A3 -->|Local control| B2
+    B2 --> B1
+    B2 --> BACKENDS
+    BACKENDS --> B2
+    B1 --> STORAGE
+```
 
 ## Development
 
