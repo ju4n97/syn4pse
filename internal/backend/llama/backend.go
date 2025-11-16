@@ -11,8 +11,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/ju4n97/syn4pse/internal/backend"
-	"github.com/ju4n97/syn4pse/internal/mapsafe"
+	"github.com/ju4n97/relic/internal/backend"
+	"github.com/ju4n97/relic/internal/mapsafe"
 )
 
 const (

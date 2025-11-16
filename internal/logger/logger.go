@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/ju4n97/syn4pse/internal/env"
+	"github.com/ju4n97/relic/internal/env"
 	"github.com/lmittmann/tint"
 	"gopkg.in/natefinch/lumberjack.v2"
 )
@@ -28,7 +28,7 @@ type Config struct {
 // DefaultConfig returns the default configuration for the logger.
 func DefaultConfig() Config {
 	return Config{
-		LogFile:     "logs/syn4pse.log",
+		LogFile:     "logs/relic.log",
 		LogToFile:   false,
 		LogToStdout: true,
 		MaxSizeMB:   100,  // 100 MB

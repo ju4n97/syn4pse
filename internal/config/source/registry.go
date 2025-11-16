@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/ju4n97/syn4pse/internal/config"
+	"github.com/ju4n97/relic/internal/config"
 )
 
 // Downloader downloads a model to local cache.

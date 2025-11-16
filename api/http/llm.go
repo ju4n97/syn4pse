@@ -10,10 +10,10 @@ import (
 	"github.com/danielgtaylor/huma/v2"
 	"github.com/danielgtaylor/huma/v2/sse"
 
-	"github.com/ju4n97/syn4pse/internal/backend"
-	"github.com/ju4n97/syn4pse/internal/backend/llama"
-	"github.com/ju4n97/syn4pse/internal/model"
-	"github.com/ju4n97/syn4pse/internal/service"
+	"github.com/ju4n97/relic/internal/backend"
+	"github.com/ju4n97/relic/internal/backend/llama"
+	"github.com/ju4n97/relic/internal/model"
+	"github.com/ju4n97/relic/internal/service"
 )
 
 type (

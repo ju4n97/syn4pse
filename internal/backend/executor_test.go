@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ju4n97/syn4pse/internal/backend"
+	"github.com/ju4n97/relic/internal/backend"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

@@ -13,7 +13,7 @@ This page explains how to report issues and the guidelines for contributing to t
 
 ## Recommended issues for starters
 
-If you’re not familiar with the project, you can start with issues labeled [good first issue](https://github.com/ju4n97/syn4pse/internal/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22+-label%3A%22blocked+by+upstream%22). Before starting, make sure there are no active pull requests or existing assignments.
+If you’re not familiar with the project, you can start with issues labeled [good first issue](https://github.com/ju4n97/relic/internal/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22+-label%3A%22blocked+by+upstream%22). Before starting, make sure there are no active pull requests or existing assignments.
 
 ## Code style
 

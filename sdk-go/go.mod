@@ -1,4 +1,4 @@
-module github.com/ju4n97/syn4pse/sdk-go
+module github.com/ju4n97/relic/sdk-go
 
 go 1.25.4
 

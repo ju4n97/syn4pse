@@ -4,7 +4,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/ju4n97/syn4pse/internal/envvar"
+	"github.com/ju4n97/relic/internal/envvar"
 )
 
 // Env represents the environment a service is running in.
@@ -43,9 +43,9 @@ func FromString(s string) Env {
 	}
 }
 
-// FromEnv returns the environment based on the SYN4PSE_ENV environment variable.
+// FromEnv returns the environment based on the RELIC_ENV environment variable.
 func FromEnv() Env {
-	val := os.Getenv(envvar.Syn4pseEnv)
+	val := os.Getenv(envvar.RelicEnv)
 	if val == "" {
 		return EnvDevelopment
 	}

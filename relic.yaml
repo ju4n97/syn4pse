@@ -1,11 +1,11 @@
-# yaml-language-server: $schema=jsonschema/syn4pse.v1.schema.json
+# yaml-language-server: $schema=jsonschema/relic.v1.schema.json
 
 version: "1"
 
 # storage:
-# SYN4PSE will download and store the models in a predefined default cache directory
+# RELIC will download and store the models in a predefined default cache directory
 # based on the OS. This can be overridden with:
-# models_dir: <my-custom-location> (ex: ~/.cache/syn4pse/models/)
+# models_dir: <my-custom-location> (ex: ~/.cache/relic/models/)
 
 models:
   llama-cpp-qwen2.5-1.5b-instruct-q4_k_m:

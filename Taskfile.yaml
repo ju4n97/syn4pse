@@ -20,11 +20,11 @@ vars:
     sh: |
       MODULE=$(go list -m)
       echo "-s -w \
-        -X '${MODULE}/runtime/version.Version={{.VERSION}}' \
-        -X '${MODULE}/runtime/version.Commit={{.GIT_COMMIT}}' \
-        -X '${MODULE}/runtime/version.Branch={{.GIT_BRANCH}}' \
-        -X '${MODULE}/runtime/version.BuildTime={{.BUILD_TIME}}' \
-        -X '${MODULE}/runtime/version.BuildBy={{.BUILD_BY}}'"
+        -X '${MODULE}/internal/version.Version={{.VERSION}}' \
+        -X '${MODULE}/internal/version.Commit={{.GIT_COMMIT}}' \
+        -X '${MODULE}/internal/version.Branch={{.GIT_BRANCH}}' \
+        -X '${MODULE}/internal/version.BuildTime={{.BUILD_TIME}}' \
+        -X '${MODULE}/internal/version.BuildBy={{.BUILD_BY}}'"
 
 tasks:
   default:
@@ -86,8 +86,8 @@ tasks:
   # =============================================================================
 
   dev:
-    desc: Start SYN4PSE in dev mode
-    cmd: go run ./cmd/syn4pse --config syn4pse.yaml --schema jsonschema/syn4pse.v1.schema.json
+    desc: Start RELIC in dev mode
+    cmd: go run ./cmd/relic --config relic.yaml --schema jsonschema/relic.v1.schema.json
 
   # =============================================================================
   # TESTING

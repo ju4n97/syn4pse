@@ -8,11 +8,11 @@ import (
 	"path/filepath"
 	"runtime"
 
-	syn4pse "github.com/ju4n97/syn4pse/sdk-go"
+	relic "github.com/ju4n97/relic/sdk-go"
 )
 
 func main() {
-	client, err := syn4pse.NewClient("localhost:50051")
+	client, err := relic.NewClient("localhost:50051")
 	if err != nil {
 		panic(err)
 	}
@@ -27,9 +27,9 @@ func main() {
 	}
 
 	transcript, err := client.TranscribeAudio(context.Background(), audioData,
-		syn4pse.WithProvider("whisper.cpp"),
-		syn4pse.WithModelID("whisper-cpp-tiny"),
-		syn4pse.WithParameter("language", "en"),
+		relic.WithProvider("whisper.cpp"),
+		relic.WithModelID("whisper-cpp-tiny"),
+		relic.WithParameter("language", "en"),
 	)
 	if err != nil {
 		log.Fatal(err)

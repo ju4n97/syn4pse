@@ -4,7 +4,7 @@ set -e
 echo "[+] Pruning workspace with artifacts and ignore list..."
 
 # Directories to ignore (relative to repo root)
-IGNORE_DIRS=(syn4pse)
+IGNORE_DIRS=(relic)
 
 # Remove Go workspace files
 rm -f go.work go.work.sum

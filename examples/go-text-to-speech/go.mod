@@ -1,8 +1,8 @@
-module github.com/syn4pse/examples/go-text-to-speech
+module github.com/relic/examples/go-text-to-speech
 
 go 1.25.4
 
-require github.com/ju4n97/syn4pse/sdk-go v0.0.0-20251116022054-a59e331016fe
+require github.com/ju4n97/relic/sdk-go v0.0.0-20251116022054-a59e331016fe
 
 require (
 	golang.org/x/net v0.42.0 // indirect

@@ -3,7 +3,7 @@ package model
 import (
 	"time"
 
-	"github.com/ju4n97/syn4pse/internal/config"
+	"github.com/ju4n97/relic/internal/config"
 )
 
 // Type is the type of a model.

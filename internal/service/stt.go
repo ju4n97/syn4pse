@@ -4,8 +4,8 @@ import (
 	"context"
 	"log/slog"
 
-	"github.com/ju4n97/syn4pse/internal/backend"
-	"github.com/ju4n97/syn4pse/internal/model"
+	"github.com/ju4n97/relic/internal/backend"
+	"github.com/ju4n97/relic/internal/model"
 )
 
 // STT is a service abstraction for speech-to-text.

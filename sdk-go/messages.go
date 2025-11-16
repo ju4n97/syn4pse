@@ -1,4 +1,4 @@
-package syn4pse
+package relic
 
 import "time"
 

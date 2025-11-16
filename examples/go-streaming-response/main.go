@@ -5,25 +5,25 @@ import (
 	"fmt"
 	"log"
 
-	syn4pse "github.com/ju4n97/syn4pse/sdk-go"
+	relic "github.com/ju4n97/relic/sdk-go"
 )
 
 func main() {
-	client, err := syn4pse.NewClient("localhost:50051")
+	client, err := relic.NewClient("localhost:50051")
 	if err != nil {
 		panic(err)
 	}
 	defer client.Close()
 
-	messages := []syn4pse.Message{
-		syn4pse.NewSystemMessage("You are a creative storyteller."),
-		syn4pse.NewUserMessage("Tell me a short story about a robot learning to paint."),
+	messages := []relic.Message{
+		relic.NewSystemMessage("You are a creative storyteller."),
+		relic.NewUserMessage("Tell me a short story about a robot learning to paint."),
 	}
 
 	stream := client.GenerateStream(context.Background(), messages,
-		syn4pse.WithProvider("llama.cpp"),
-		syn4pse.WithModelID("llama-cpp-qwen2.5-1.5b-instruct-q4_k_m"),
-		syn4pse.WithParameter("temperature", 0.7),
+		relic.WithProvider("llama.cpp"),
+		relic.WithModelID("llama-cpp-qwen2.5-1.5b-instruct-q4_k_m"),
+		relic.WithParameter("temperature", 0.7),
 	)
 
 	for chunk := range stream {

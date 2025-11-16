@@ -1,4 +1,4 @@
-module github.com/ju4n97/syn4pse
+module github.com/ju4n97/relic
 
 go 1.25.4
 
@@ -8,7 +8,7 @@ require (
 	github.com/go-chi/chi/v5 v5.2.3
 	github.com/go-chi/cors v1.2.2
 	github.com/go-chi/httplog/v3 v3.3.0
-	github.com/ju4n97/syn4pse/sdk-go v0.0.0-20251116022054-a59e331016fe
+	github.com/ju4n97/relic/sdk-go v0.0.0-20251116022054-a59e331016fe
 	github.com/lmittmann/tint v1.1.2
 	github.com/santhosh-tekuri/jsonschema/v5 v5.3.1
 	github.com/stretchr/testify v1.11.1
@@ -30,4 +30,4 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace github.com/ju4n97/syn4pse/sdk-go => ./sdk-go
+replace github.com/ju4n97/relic/sdk-go => ./sdk-go

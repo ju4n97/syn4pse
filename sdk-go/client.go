@@ -1,4 +1,4 @@
-package syn4pse
+package relic
 
 import (
 	"context"
@@ -8,13 +8,13 @@ import (
 	"io"
 	"maps"
 
-	inferencev1 "github.com/ju4n97/syn4pse/sdk-go/pb/inference/v1"
+	inferencev1 "github.com/ju4n97/relic/sdk-go/pb/inference/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/protobuf/types/known/structpb"
 )
 
-// Client is a client for SYN4PSE inference services.
+// Client is a client for RELIC inference services.
 type Client struct {
 	conn            *grpc.ClientConn
 	inferenceClient inferencev1.InferenceServiceClient
@@ -26,7 +26,7 @@ func NewClient(addr string) (*Client, error) {
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 	)
 	if err != nil {
-		return nil, fmt.Errorf("syn4pse: failed to create gRPC client: %w", err)
+		return nil, fmt.Errorf("relic: failed to create gRPC client: %w", err)
 	}
 
 	return &Client{
@@ -55,12 +55,12 @@ func (c *Client) Generate(ctx context.Context, messages []Message, options ...Op
 
 	req, err := c.buildLLMRequest(messages, cfg)
 	if err != nil {
-		return "", fmt.Errorf("syn4pse: failed to build generate request: %w", err)
+		return "", fmt.Errorf("relic: failed to build generate request: %w", err)
 	}
 
 	resp, err := c.inferenceClient.Infer(ctx, req)
 	if err != nil {
-		return "", fmt.Errorf("syn4pse: failed to generate: %w", err)
+		return "", fmt.Errorf("relic: failed to generate: %w", err)
 	}
 
 	return string(resp.Output), nil
@@ -90,23 +90,23 @@ func (c *Client) GenerateStream(ctx context.Context, messages []Message, options
 
 		req, err := c.buildLLMRequest(messages, cfg)
 		if err != nil {
-			ch <- StreamChunk{Error: fmt.Errorf("syn4pse: failed to build generate request: %w", err)}
+			ch <- StreamChunk{Error: fmt.Errorf("relic: failed to build generate request: %w", err)}
 			return
 		}
 
 		stream, err := c.inferenceClient.InferStream(ctx)
 		if err != nil {
-			ch <- StreamChunk{Error: fmt.Errorf("syn4pse: failed to create stream: %w", err)}
+			ch <- StreamChunk{Error: fmt.Errorf("relic: failed to create stream: %w", err)}
 			return
 		}
 
 		if err := stream.Send(req); err != nil {
-			ch <- StreamChunk{Error: fmt.Errorf("syn4pse: failed to send initial request: %w", err)}
+			ch <- StreamChunk{Error: fmt.Errorf("relic: failed to send initial request: %w", err)}
 			return
 		}
 
 		if err := stream.CloseSend(); err != nil {
-			ch <- StreamChunk{Error: fmt.Errorf("syn4pse: failed to close stream: %w", err)}
+			ch <- StreamChunk{Error: fmt.Errorf("relic: failed to close stream: %w", err)}
 			return
 		}
 
@@ -116,7 +116,7 @@ func (c *Client) GenerateStream(ctx context.Context, messages []Message, options
 				return
 			}
 			if err != nil {
-				ch <- StreamChunk{Error: fmt.Errorf("syn4pse: stream received error: %w", err)}
+				ch <- StreamChunk{Error: fmt.Errorf("relic: stream received error: %w", err)}
 				return
 			}
 
@@ -147,7 +147,7 @@ func (c *Client) TranscribeAudio(ctx context.Context, audio []byte, options ...O
 
 	parameters, err := c.buildParameters(cfg.Parameters)
 	if err != nil {
-		return "", fmt.Errorf("syn4pse: failed to build parameters: %w", err)
+		return "", fmt.Errorf("relic: failed to build parameters: %w", err)
 	}
 
 	req := &inferencev1.InferenceRequest{
@@ -159,7 +159,7 @@ func (c *Client) TranscribeAudio(ctx context.Context, audio []byte, options ...O
 
 	resp, err := c.inferenceClient.Infer(ctx, req)
 	if err != nil {
-		return "", fmt.Errorf("syn4pse: failed to transcribe audio: %w", err)
+		return "", fmt.Errorf("relic: failed to transcribe audio: %w", err)
 	}
 
 	return string(resp.Output), nil
@@ -180,7 +180,7 @@ func (c *Client) SynthesizeSpeech(ctx context.Context, text string, options ...O
 
 	parameters, err := c.buildParameters(cfg.Parameters)
 	if err != nil {
-		return nil, fmt.Errorf("syn4pse: failed to build parameters: %w", err)
+		return nil, fmt.Errorf("relic: failed to build parameters: %w", err)
 	}
 
 	req := &inferencev1.InferenceRequest{
@@ -192,7 +192,7 @@ func (c *Client) SynthesizeSpeech(ctx context.Context, text string, options ...O
 
 	resp, err := c.inferenceClient.Infer(ctx, req)
 	if err != nil {
-		return nil, fmt.Errorf("syn4pse: failed to synthesize speech: %w", err)
+		return nil, fmt.Errorf("relic: failed to synthesize speech: %w", err)
 	}
 
 	return resp.Output, nil
@@ -214,7 +214,7 @@ func (c *Client) applyOptions(options ...Option) *Config {
 // buildLLMRequest constructs an InferenceRequest for LLM operations.
 func (c *Client) buildLLMRequest(messages []Message, cfg *Config) (*inferencev1.InferenceRequest, error) {
 	if len(messages) == 0 {
-		return nil, errors.New("syn4pse: messages cannot be empty")
+		return nil, errors.New("relic: messages cannot be empty")
 	}
 
 	chatMessages := make([]map[string]string, len(messages))
@@ -227,7 +227,7 @@ func (c *Client) buildLLMRequest(messages []Message, cfg *Config) (*inferencev1.
 
 	messagesJSON, err := json.Marshal(chatMessages)
 	if err != nil {
-		return nil, fmt.Errorf("syn4pse: failed to marshal messages: %w", err)
+		return nil, fmt.Errorf("relic: failed to marshal messages: %w", err)
 	}
 
 	parametersMap := make(map[string]any, len(cfg.Parameters)+1)
@@ -236,7 +236,7 @@ func (c *Client) buildLLMRequest(messages []Message, cfg *Config) (*inferencev1.
 
 	parameters, err := c.buildParameters(parametersMap)
 	if err != nil {
-		return nil, fmt.Errorf("syn4pse: failed to build parameters: %w", err)
+		return nil, fmt.Errorf("relic: failed to build parameters: %w", err)
 	}
 
 	return &inferencev1.InferenceRequest{
@@ -257,7 +257,7 @@ func (c *Client) buildParameters(params map[string]any) (*structpb.Struct, error
 	for k, v := range params {
 		val, err := structpb.NewValue(v)
 		if err != nil {
-			return nil, fmt.Errorf("syn4pse: failed to set parameter %s: %w", k, err)
+			return nil, fmt.Errorf("relic: failed to set parameter %s: %w", k, err)
 		}
 
 		fields[k] = val
