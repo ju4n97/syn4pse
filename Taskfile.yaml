@@ -41,16 +41,32 @@ tasks:
   # SETUP & DEPENDENCIES
   # =============================================================================
 
+  sync:
+    desc: Sync workspace
+    cmds:
+      - ./scripts/sync.sh
+
+  tidy:
+    desc: Tidy workspace
+    cmds:
+      - ./scripts/tidy.sh
+
   prune:
     desc: Prune workspace
     cmds:
       - ./scripts/prune.sh
 
+  prune-cache:
+    desc: Prune cache
+    cmds:
+      - ./scripts/prune-cache.sh
+
   install:
     desc: Install dependencies and dev tools
     cmds:
       - task: gen-proto
-      - go mod tidy
+      - task: sync
+      - task: tidy
       - go install github.com/evilmartians/lefthook@latest
       - go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
       - go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest

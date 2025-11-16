@@ -196,4 +196,4 @@ services:
       # - piper-es-mx-claude-high
       - piper-es-ar-daniela-high
       # - piper-en-us-amy-low
-      # - piper-en-us-lessac-high
+      - piper-en-us-lessac-high
