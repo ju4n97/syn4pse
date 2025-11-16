@@ -8,11 +8,11 @@ import (
 	"path/filepath"
 	"runtime"
 
-	syn4pse "github.com/ju4n97/syn4pse/sdk-go"
+	relic "github.com/ju4n97/relic/sdk-go"
 )
 
 func main() {
-	client, err := syn4pse.NewClient("localhost:50051")
+	client, err := relic.NewClient("localhost:50051")
 	if err != nil {
 		panic(err)
 	}
@@ -21,8 +21,8 @@ func main() {
 	_, filename, _, _ := runtime.Caller(0)
 	dir := filepath.Dir(filename)
 
-	conversation := []syn4pse.Message{
-		syn4pse.NewSystemMessage("You are a helpful voice assistant. Keep responses under 20 words and natural."),
+	conversation := []relic.Message{
+		relic.NewSystemMessage("You are a helpful voice assistant. Keep responses under 20 words and natural."),
 	}
 
 	audioInputPath := filepath.Join(dir, "user_input.wav")
@@ -33,32 +33,32 @@ func main() {
 
 	// 1. transcribe user's voice
 	transcript, err := client.TranscribeAudio(context.Background(), audioInput,
-		syn4pse.WithProvider("whisper.cpp"),
-		syn4pse.WithModelID("whisper-cpp-tiny"),
-		syn4pse.WithParameter("language", "en"),
+		relic.WithProvider("whisper.cpp"),
+		relic.WithModelID("whisper-cpp-tiny"),
+		relic.WithParameter("language", "en"),
 	)
 	if err != nil {
 		log.Fatal(err)
 	}
-	conversation = append(conversation, syn4pse.NewUserMessage(transcript))
+	conversation = append(conversation, relic.NewUserMessage(transcript))
 	fmt.Println("You:\n", transcript)
 
 	// 2. generate AI response
 	response, err := client.Generate(context.Background(), conversation,
-		syn4pse.WithProvider("llama.cpp"),
-		syn4pse.WithModelID("llama-cpp-qwen2.5-1.5b-instruct-q4_k_m"),
-		syn4pse.WithParameter("max_tokens", 150),
+		relic.WithProvider("llama.cpp"),
+		relic.WithModelID("llama-cpp-qwen2.5-1.5b-instruct-q4_k_m"),
+		relic.WithParameter("max_tokens", 150),
 	)
 	if err != nil {
 		log.Fatal(err)
 	}
-	conversation = append(conversation, syn4pse.NewAssistantMessage(response))
+	conversation = append(conversation, relic.NewAssistantMessage(response))
 	fmt.Println("Assistant:\n", response)
 
 	// 3. synthesize AI response
 	audioOutput, err := client.SynthesizeSpeech(context.Background(), response,
-		syn4pse.WithProvider("piper"),
-		syn4pse.WithModelID("piper-en-us-lessac-high"),
+		relic.WithProvider("piper"),
+		relic.WithModelID("piper-en-us-lessac-high"),
 	)
 	if err != nil {
 		log.Fatal(err)

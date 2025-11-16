@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ju4n97/syn4pse/internal/backend"
+	"github.com/ju4n97/relic/internal/backend"
 )
 
 const (

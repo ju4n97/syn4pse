@@ -13,9 +13,9 @@ import (
 	"google.golang.org/protobuf/types/known/structpb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/ju4n97/syn4pse/internal/backend"
-	"github.com/ju4n97/syn4pse/internal/model"
-	inferencev1 "github.com/ju4n97/syn4pse/sdk-go/pb/inference/v1"
+	"github.com/ju4n97/relic/internal/backend"
+	"github.com/ju4n97/relic/internal/model"
+	inferencev1 "github.com/ju4n97/relic/sdk-go/pb/inference/v1"
 )
 
 // InferenceServer implements inferencev1.InferenceServiceServer.

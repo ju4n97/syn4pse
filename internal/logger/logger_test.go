@@ -5,8 +5,8 @@ import (
 	"io"
 	"testing"
 
-	"github.com/ju4n97/syn4pse/internal/env"
-	"github.com/ju4n97/syn4pse/internal/logger"
+	"github.com/ju4n97/relic/internal/env"
+	"github.com/ju4n97/relic/internal/logger"
 	"github.com/stretchr/testify/assert"
 )
 

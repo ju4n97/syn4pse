@@ -1,18 +1,18 @@
 package envvar
 
 const (
-	// Syn4pseEnv is the environment variable used to determine the environment.
-	Syn4pseEnv = "SYN4PSE_ENV"
+	// RelicEnv is the environment variable used to determine the environment.
+	RelicEnv = "RELIC_ENV"
 
-	// Syn4pseServerHTTPPort is the environment variable used to determine the HTTP port.
-	Syn4pseServerHTTPPort = "SYN4PSE_SERVER_HTTP_PORT"
+	// RelicServerHTTPPort is the environment variable used to determine the HTTP port.
+	RelicServerHTTPPort = "RELIC_SERVER_HTTP_PORT"
 
-	// Syn4pseServerGRPCPort is the environment variable used to determine the gRPC port.
-	Syn4pseServerGRPCPort = "SYN4PSE_SERVER_GRPC_PORT"
+	// RelicServerGRPCPort is the environment variable used to determine the gRPC port.
+	RelicServerGRPCPort = "RELIC_SERVER_GRPC_PORT"
 
-	// Syn4pseModelsPath is the environment variable used to determine the path to the models.
-	Syn4pseModelsPath = "SYN4PSE_MODELS_PATH"
+	// RelicModelsPath is the environment variable used to determine the path to the models.
+	RelicModelsPath = "RELIC_MODELS_PATH"
 
-	// Syn4pseConfigPath is the environment variable used to determine the path to the config.
-	Syn4pseConfigPath = "SYN4PSE_CONFIG_PATH"
+	// RelicConfigPath is the environment variable used to determine the path to the config.
+	RelicConfigPath = "RELIC_CONFIG_PATH"
 )

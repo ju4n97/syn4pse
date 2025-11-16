@@ -8,11 +8,11 @@ import (
 	"path/filepath"
 	"runtime"
 
-	syn4pse "github.com/ju4n97/syn4pse/sdk-go"
+	relic "github.com/ju4n97/relic/sdk-go"
 )
 
 func main() {
-	client, err := syn4pse.NewClient("localhost:50051")
+	client, err := relic.NewClient("localhost:50051")
 	if err != nil {
 		panic(err)
 	}
@@ -21,8 +21,8 @@ func main() {
 	text := "Soy un asistente virtual diseñado para ayudar al usuario de manera eficiente."
 
 	audioData, err := client.SynthesizeSpeech(context.Background(), text,
-		syn4pse.WithProvider("piper"),
-		syn4pse.WithModelID("piper-es-ar-daniela-high"),
+		relic.WithProvider("piper"),
+		relic.WithModelID("piper-es-ar-daniela-high"),
 	)
 	if err != nil {
 		log.Fatal(err)

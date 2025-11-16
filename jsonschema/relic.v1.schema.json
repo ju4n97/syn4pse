@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://syn4pse.pages.dev/schemas/syn4pse.v1.schema.json",
-  "title": "SYN4PSE Configuration",
-  "description": "Configuration for SYN4PSE.",
+  "$id": "https://relic.pages.dev/schemas/relic.v1.schema.json",
+  "title": "RELIC Configuration",
+  "description": "Configuration for Relic.",
   "type": "object",
   "additionalProperties": false,
   "required": ["version", "models", "services"],

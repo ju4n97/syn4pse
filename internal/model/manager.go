@@ -7,10 +7,10 @@ import (
 	"os"
 	"sync"
 
-	"github.com/ju4n97/syn4pse/internal/config"
-	"github.com/ju4n97/syn4pse/internal/config/source"
-	"github.com/ju4n97/syn4pse/internal/envvar"
-	"github.com/ju4n97/syn4pse/internal/xfs"
+	"github.com/ju4n97/relic/internal/config"
+	"github.com/ju4n97/relic/internal/config/source"
+	"github.com/ju4n97/relic/internal/envvar"
+	"github.com/ju4n97/relic/internal/xfs"
 )
 
 // Manager orchestrates model lifecycle for any model type.
@@ -103,11 +103,11 @@ func (m *Manager) LoadModelsFromConfig(ctx context.Context, cfg *config.Config) 
 
 // resolveModelsPath returns the path to the models directory.
 // Precedence:
-// 1. SYN4PSE_MODELS_PATH environment variable.
+// 1. RELIC_MODELS_PATH environment variable.
 // 2. ModelsDir field in the config.
 // 3. Default models path.
 func resolveModelsPath(cfg *config.Config) string {
-	if p := os.Getenv(envvar.Syn4pseModelsPath); p != "" {
+	if p := os.Getenv(envvar.RelicModelsPath); p != "" {
 		return xfs.ExpandTilde(p)
 	}
 	if cfg.Storage.ModelsDir != "" {

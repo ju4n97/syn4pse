@@ -3,8 +3,8 @@ package env_test
 import (
 	"testing"
 
-	"github.com/ju4n97/syn4pse/internal/env"
-	"github.com/ju4n97/syn4pse/internal/envvar"
+	"github.com/ju4n97/relic/internal/env"
+	"github.com/ju4n97/relic/internal/envvar"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -102,18 +102,18 @@ func TestFromString(t *testing.T) {
 }
 
 func TestFromEnv(t *testing.T) {
-	t.Run("returns development when SYN4PSE_ENV is not set", func(t *testing.T) {
-		t.Setenv(envvar.Syn4pseEnv, "")
+	t.Run("returns development when RELIC_ENV is not set", func(t *testing.T) {
+		t.Setenv(envvar.RelicEnv, "")
 		assert.Equal(t, env.EnvDevelopment, env.FromEnv())
 	})
 
-	t.Run("returns correct environment when SYN4PSE_ENV is set", func(t *testing.T) {
-		t.Setenv(envvar.Syn4pseEnv, "production")
+	t.Run("returns correct environment when RELIC_ENV is set", func(t *testing.T) {
+		t.Setenv(envvar.RelicEnv, "production")
 		assert.Equal(t, env.EnvProduction, env.FromEnv())
 	})
 
-	t.Run("falls back to development for invalid SYN4PSE_ENV values", func(t *testing.T) {
-		t.Setenv(envvar.Syn4pseEnv, "invalid")
+	t.Run("falls back to development for invalid RELIC_ENV values", func(t *testing.T) {
+		t.Setenv(envvar.RelicEnv, "invalid")
 		assert.Equal(t, env.EnvDevelopment, env.FromEnv())
 	})
 }

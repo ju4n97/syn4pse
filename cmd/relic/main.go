@@ -23,18 +23,18 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
-	syn4psegrpc "github.com/ju4n97/syn4pse/api/grpc"
-	syn4psehttp "github.com/ju4n97/syn4pse/api/http"
-	"github.com/ju4n97/syn4pse/internal/backend"
-	"github.com/ju4n97/syn4pse/internal/backend/llama"
-	"github.com/ju4n97/syn4pse/internal/backend/piper"
-	"github.com/ju4n97/syn4pse/internal/backend/whisper"
-	"github.com/ju4n97/syn4pse/internal/config"
-	"github.com/ju4n97/syn4pse/internal/env"
-	"github.com/ju4n97/syn4pse/internal/logger"
-	"github.com/ju4n97/syn4pse/internal/model"
-	"github.com/ju4n97/syn4pse/internal/service"
-	inferencev1 "github.com/ju4n97/syn4pse/sdk-go/pb/inference/v1"
+	relicgrpc "github.com/ju4n97/relic/api/grpc"
+	relichttp "github.com/ju4n97/relic/api/http"
+	"github.com/ju4n97/relic/internal/backend"
+	"github.com/ju4n97/relic/internal/backend/llama"
+	"github.com/ju4n97/relic/internal/backend/piper"
+	"github.com/ju4n97/relic/internal/backend/whisper"
+	"github.com/ju4n97/relic/internal/config"
+	"github.com/ju4n97/relic/internal/env"
+	"github.com/ju4n97/relic/internal/logger"
+	"github.com/ju4n97/relic/internal/model"
+	"github.com/ju4n97/relic/internal/service"
+	inferencev1 "github.com/ju4n97/relic/sdk-go/pb/inference/v1"
 )
 
 func main() {
@@ -44,7 +44,7 @@ func main() {
 		flagHTTPPort   = flag.Int("http-port", config.DefaultHTTPPort(), "HTTP port to listen on")
 		flagGRPCPort   = flag.Int("grpc-port", config.DefaultGRPCPort(), "gRPC port to listen on")
 		flagConfigPath = flag.String("config", path.Join(config.DefaultConfigPath(), "config.yaml"), "Path to config file")
-		flagSchemaPath = flag.String("schema", path.Join(config.DefaultConfigPath(), "syn4pse.v1.schema.json"), "Path to schema file")
+		flagSchemaPath = flag.String("schema", path.Join(config.DefaultConfigPath(), "relic.v1.schema.json"), "Path to schema file")
 		flagLlamaBin   = flag.String("llama-bin", "./bin/llama-server-cuda", "Path to llama")
 		flagWhisperBin = flag.String("whisper-bin", "./bin/whisper-server-cuda", "Path to whisper")
 		flagPiperBin   = flag.String("piper-bin", "./bin/piper-cpu/piper", "Path to piper")
@@ -56,7 +56,7 @@ func main() {
 	slog.SetDefault(
 		logger.New(environment,
 			logger.WithLogToFile(true),
-			logger.WithLogFile("logs/syn4pse.log"),
+			logger.WithLogFile("logs/relic.log"),
 		),
 	)
 
@@ -210,7 +210,7 @@ func buildHTTPServer(port int, backends *backend.Registry, models *model.Registr
 	router := buildHTTPRouter()
 
 	router.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		_, _ = w.Write([]byte("syn4pse HTTP service is running."))
+		_, _ = w.Write([]byte("relic HTTP service is running."))
 	})
 
 	router.Get("/health", func(w http.ResponseWriter, r *http.Request) {
@@ -218,7 +218,7 @@ func buildHTTPServer(port int, backends *backend.Registry, models *model.Registr
 	})
 
 	router.Route("/v1", func(r chi.Router) {
-		cfg := huma.DefaultConfig("SYN4PSE", "1.0.0")
+		cfg := huma.DefaultConfig("RELIC", "1.0.0")
 		cfg.Servers = []*huma.Server{{URL: "/v1"}}
 		api := humachi.New(r, cfg)
 
@@ -226,9 +226,9 @@ func buildHTTPServer(port int, backends *backend.Registry, models *model.Registr
 		stt := service.NewSTT(backends, models)
 		tts := service.NewTTS(backends, models)
 
-		syn4psehttp.NewLLMHandler(api, llm)
-		syn4psehttp.NewSTTHandler(api, stt)
-		syn4psehttp.NewTTSHandler(api, tts)
+		relichttp.NewLLMHandler(api, llm)
+		relichttp.NewSTTHandler(api, stt)
+		relichttp.NewTTSHandler(api, tts)
 	})
 
 	return &http.Server{
@@ -248,7 +248,7 @@ func buildGRPCServer(backends *backend.Registry, models *model.Registry) *grpc.S
 		),
 	)
 
-	inferenceServer := syn4psegrpc.NewInferenceServer(backends, models)
+	inferenceServer := relicgrpc.NewInferenceServer(backends, models)
 	inferencev1.RegisterInferenceServiceServer(server, inferenceServer)
 
 	// Enable reflection for development (allows using grpcurl, grpcui, etc.)

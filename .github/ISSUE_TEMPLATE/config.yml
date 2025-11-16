@@ -1,9 +1,9 @@
 blank_issues_enabled: true
 contact_links:
   - name: Feedback
-    url: https://github.com/jun497/syn4pse/discussions/categories/ideas
+    url: https://github.com/jun497/relic/discussions/categories/ideas
     about: Share your suggestions and feedback.
 
   - name: Questions
-    url: https://github.com/jun497/syn4pse/discussions/categories/q-a
+    url: https://github.com/jun497/relic/discussions/categories/q-a
     about: Ask and answer questions.

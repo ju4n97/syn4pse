@@ -3,7 +3,7 @@ package mapsafe_test
 import (
 	"testing"
 
-	"github.com/ju4n97/syn4pse/internal/mapsafe"
+	"github.com/ju4n97/relic/internal/mapsafe"
 	"github.com/stretchr/testify/assert"
 )
 
