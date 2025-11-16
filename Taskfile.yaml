@@ -3,7 +3,6 @@ version: "3"
 dotenv: [".env"]
 
 vars:
-  # Version control
   VERSION:
     sh: git describe --tags --always --dirty 2>/dev/null || date -u '+%Y%m%d-%H%M%S'
   GIT_COMMIT:
@@ -14,17 +13,6 @@ vars:
     sh: date -u '+%Y-%m-%d_%H:%M:%S'
   BUILD_BY:
     sh: whoami
-
-  # Build flags for version embedding
-  LD_FLAGS:
-    sh: |
-      MODULE=$(go list -m)
-      echo "-s -w \
-        -X '${MODULE}/internal/version.Version={{.VERSION}}' \
-        -X '${MODULE}/internal/version.Commit={{.GIT_COMMIT}}' \
-        -X '${MODULE}/internal/version.Branch={{.GIT_BRANCH}}' \
-        -X '${MODULE}/internal/version.BuildTime={{.BUILD_TIME}}' \
-        -X '${MODULE}/internal/version.BuildBy={{.BUILD_BY}}'"
 
 tasks:
   default:
