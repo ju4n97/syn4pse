@@ -80,7 +80,7 @@ tasks:
   test:
     desc: Run all tests
     cmds:
-      - go test -cpu 24 -race -count=1 -timeout=30s ./...
+      - go test -race -count=1 -timeout=30s ./...
 
   # =============================================================================
   # QUALITY
@@ -109,11 +109,11 @@ tasks:
     desc: Generate Go code from protobuf definitions
     cmds:
       - |
-        mkdir -p internal/pb
+        mkdir -p sdk-go/pb
         protoc \
           -I proto \
-          --go_out=internal/pb \
-          --go-grpc_out=internal/pb \
+          --go_out=sdk-go/pb \
+          --go-grpc_out=sdk-go/pb \
           $(find proto -name '*.proto')
       - go mod tidy
 

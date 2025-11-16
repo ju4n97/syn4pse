@@ -54,7 +54,7 @@ type ResponseMetadata struct {
 
 // StreamChunk represents a single chunk in a streaming response.
 type StreamChunk struct {
-	Error error
-	Data  []byte
-	Done  bool
+	Error error  `json:"error,omitempty"`
+	Data  []byte `json:"data,omitempty"`
+	Done  bool   `json:"done,omitempty"`
 }

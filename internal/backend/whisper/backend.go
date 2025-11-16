@@ -77,7 +77,7 @@ type TranscriptionSegmentWord struct {
 }
 
 // NewBackend creates a new Backend instance.
-func NewBackend(binPath string, serverManager *backend.ServerManager) (*Backend, error) {
+func NewBackend(binPath string, serverManager *backend.ServerManager) (backend.Backend, error) {
 	return &Backend{
 		binPath:       binPath,
 		serverManager: serverManager,

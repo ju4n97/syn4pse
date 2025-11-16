@@ -9,12 +9,17 @@
 </pre>
 </div>
 
+[![CI](https://img.shields.io/github/actions/workflow/status/ju4n97/syn4pse/ci.yaml?branch=main&style=flat-square)](https://github.com/ju4n97/syn4pse/actions/workflows/ci.yaml)
+![GitHub Release](https://img.shields.io/github/v/release/ju4n97/syn4pse?style=flat-square&include_prereleases)
+[![Go Report Card](https://goreportcard.com/badge/github.com/ju4n97/syn4pse?style=flat-square)](https://goreportcard.com/report/github.com/ju4n97/syn4pse)
+[![go.dev reference](https://img.shields.io/badge/go.dev-reference-007d9c?style=flat-square)](https://pkg.go.dev/github.com/ju4n97/syn4pse/sdk-go)
+
 > [!IMPORTANT]
-> Project in development, with scope limited to my specific needs for the moment.
+> Under development. For now, it only covers the essentials I currently rely on.
 
 # SYN4PSE
 
-SYN4PSE provides a local runtime for running multiple AI models through a unified HTTP and gRPC API.
+SYN4PSE provides a local runtime for running AI models through a unified HTTP and gRPC API.
 
 ## Architecture (as of October 2025)
 
@@ -58,17 +63,7 @@ flowchart TD
     B1 --> STORAGE
 ```
 
-### Build backends
-
-```bash
-# CPU
-task build-third-party
-
-# CUDA
-task build-third-party-cuda
-```
-
-## Supported Backends
+## Supported backends
 
 ### LLM
 
@@ -231,6 +226,19 @@ services:
 | `SYN4PSE_MODELS_PATH`      | Path to models directory                  |
 | `SYN4PSE_CONFIG_PATH`      | Path to config file (`syn4pse.yaml`)      |
 
+## Examples
+
+Project examples can be found in the [examples](examples) directory.
+
+### Go examples
+
+- [Basic completion](examples/go-basic-completion)
+- [Streaming response](examples/go-streaming-response)
+- [Multi-turn conversation](examples/go-multi-turn-conversation)
+- [Speech-to-Text](examples/go-speech-to-text)
+- [Text-to-Speech](examples/go-text-to-speech)
+- [Voice assistant pipeline](examples/go-voice-assistant-pipeline)
+
 ## Development
 
 ### Requirements
@@ -242,7 +250,7 @@ services:
 - [protoc](https://github.com/protocolbuffers/protobuf)
 
 ```bash
-git clone --recursive https://github.com/ju4n97/ju4n98.git
+git clone --recursive https://github.com/ju4n97/syn4pse.git
 cd syn4pse
 
 task install

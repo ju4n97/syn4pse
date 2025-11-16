@@ -65,31 +65,6 @@ func TestRegistry_RegisterAndGet(t *testing.T) {
 	mockBackend.AssertExpectations(t)
 }
 
-func TestRegistry_GetStreaming(t *testing.T) {
-	reg := NewRegistry()
-
-	// Non-streaming backend
-	mockBackend := new(MockBackend)
-	mockBackend.On("Provider").Return("basic")
-	_ = reg.Register(mockBackend)
-
-	sb, ok := reg.GetStreaming("basic")
-	assert.False(t, ok)
-	assert.Nil(t, sb)
-
-	// Streaming backend
-	mockStream := new(MockStreamingBackend)
-	mockStream.On("Provider").Return("streamer")
-	_ = reg.Register(mockStream)
-
-	sb, ok = reg.GetStreaming("streamer")
-	assert.True(t, ok)
-	assert.Equal(t, mockStream, sb)
-
-	mockBackend.AssertExpectations(t)
-	mockStream.AssertExpectations(t)
-}
-
 func TestRegistry_Close(t *testing.T) {
 	reg := NewRegistry()
 
